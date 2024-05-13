@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { HEROES, Hero } from '../hero';
-import { HeroDetailComponent } from '../hero-detail/hero-detail.component';
+import { Hero } from '../hero';
+import { HeroService } from '../hero.service';
 
 @Component({
   selector: 'app-heroes',
@@ -8,7 +8,16 @@ import { HeroDetailComponent } from '../hero-detail/hero-detail.component';
   styleUrl: './heroes.component.css',
 })
 export class HeroesComponent {
-  heroes = HEROES;
+  heroes: Hero[] = [];
+
+  constructor(private heroService: HeroService) {}
+  getHeroes(): void {
+    this.heroService.getHeroes().subscribe((heroes) => (this.heroes = heroes));
+  }
+
+  ngOnInit(): void {
+    this.getHeroes();
+  }
 
   selectedHero?: Hero;
   onSelect(hero: Hero): void {
